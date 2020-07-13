@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Header from './components/Header';
+import CardGrid from './components/CardGrid';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const [score, setScore] = useState(0);
+	const [bestScore, setBestScore] = useState(0);
+	const [reset, setReset] = useState(true);
+
+	const endCurrentStage = () => {
+		if (score > bestScore) {
+			setBestScore(score);
+		}
+		setScore(0);
+		setReset(true);
+	};
+
+	const incrementScore = () => {
+		setScore(() => score + 1);
+		setReset(false);
+	};
+
+	return (
+		<div className="App">
+			<Header score={score} bestScore={bestScore} />
+			<CardGrid
+				reset={reset}
+				endCurrentStage={endCurrentStage}
+				incrementScore={incrementScore}
+			/>
+		</div>
+	);
+};
 
 export default App;
